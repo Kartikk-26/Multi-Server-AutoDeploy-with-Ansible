@@ -1,0 +1,41 @@
+---
+- name: Install Apache HTTP server
+  ansible.builtin.yum:
+    name: httpd
+    state: present
+
+- name: Start and enable Apache service
+  ansible.builtin.service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Download website files from GitHub
+  ansible.builtin.get_url:
+    url: https://github.com/mudasirhaji/website/raw/main/website.zip
+    dest: /tmp/website.zip
+
+- name: Unzip the website files directly into /var/www/html/
+  ansible.builtin.unarchive:
+    src: /tmp/website.zip
+    dest: /var/www/html/
+    remote_src: yes
+    extra_opts: ["-o"]
+
+- name: Ensure files are moved to /var/www/html/ without subdirectory
+  ansible.builtin.shell: mv /var/www/html/website/* /var/www/html/ || true
+
+- name: Remove extracted website directory if it exists
+  ansible.builtin.file:
+    path: /var/www/html/website
+    state: absent
+
+- name: Remove the zip file after extraction
+  ansible.builtin.file:
+    path: /tmp/website.zip
+    state: absent
+
+- name: Restart Apache to apply changes
+  ansible.builtin.service:
+    name: httpd
+    state: restarted
