@@ -1,4 +1,4 @@
-# Multi-Server AutoDeploy with Ansible
+# 🌐 Multi-Server AutoDeploy with Ansible ⚙️
 
 ## 📌 Project Overview
 This project demonstrates the deployment of a website on multiple EC2 instances using **Ansible Playbooks**. It automates the installation and configuration of an Apache web server, fetches website files from GitHub, and ensures smooth hosting with minimal manual intervention.
